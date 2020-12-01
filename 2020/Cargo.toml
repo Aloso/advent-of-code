@@ -1,0 +1,10 @@
+[package]
+name = "aoc2020"
+description = "My solutions for https://adventofcode.com"
+version = "0.1.0"
+authors = ["Ludwig Stecher <ludwig.stecher@gmx.de>"]
+edition = "2018"
+
+[dependencies]
+anyhow = "1"
+atty = "0.2"
