@@ -2,12 +2,12 @@ use std::{collections::HashSet, io::Read};
 
 use anyhow::{bail, Result};
 
-/// This is an efficient solution with amortized linear runtime,
-/// using a `HashSet`.
+/// This is an efficient solution with amortized quadratic runtime,
+/// similar to the first solution.
 ///
 /// ### Usage
 /// ```shell
-/// cargo run --bin star1 < ./data/day1.txt
+/// cargo run --bin star2 < ./data/day1.txt
 /// ```
 fn main() -> Result<()> {
     if atty::is(atty::Stream::Stdin) {
@@ -26,14 +26,16 @@ fn main() -> Result<()> {
 
     let mut set = HashSet::new();
 
-    for n in input {
-        let m = 2020 - n;
-        set.insert(m);
+    for (i, &n) in input.iter().enumerate() {
+        set.insert(n);
 
-        if set.contains(&n) {
-            println!("The numbers are {} and {}.", m, n);
-            println!("The solution is {}.", m * n);
-            return Ok(());
+        for &m in &input[i + 1..] {
+            let l = 2020 - m - n;
+            if set.contains(&l) {
+                println!("The numbers are {}, {} and {}.", l, m, n);
+                println!("The solution is {}.", l * m * n);
+                return Ok(());
+            }
         }
     }
 

@@ -13,5 +13,5 @@ For example, to solve the first puzzle from 2020, run
 
 ```fish
 cd 2020
-cargo run --bin star1 < ./data/star1.txt
+cargo run --bin star1 < ./data/day1.txt
 ```
