@@ -3,15 +3,22 @@ My solutions for https://adventofcode.com
 
 ## 2020
 
-Every puzzle is a binary. Run it with
+To use it, install `cargo-aoc`:
 
 ```sh
-cargo run --bin <binary_name>
+cargo install cargo-aoc
 ```
 
-For example, to solve the first puzzle from 2020, run
+Run code for a particular day with
 
 ```fish
 cd 2020
-cargo run --bin star1 < ./data/day1.txt
+cargo aoc -d <day>
+```
+
+Benchmark it with
+
+```fish
+cd 2020
+cargo aoc bench -d <day>
 ```
