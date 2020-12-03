@@ -34,8 +34,8 @@ fn input_generator(input: &str) -> Forest {
 }
 
 #[aoc(day3, part1)]
-fn part1(data: &Forest) -> usize {
-    data.count_trees(3, 1)
+fn part1(forest: &Forest) -> usize {
+    forest.count_trees(3, 1)
 }
 
 #[aoc(day3, part2)]
