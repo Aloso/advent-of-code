@@ -1,38 +1,33 @@
+type Pass = u16;
+
 #[aoc_generator(day5)]
-fn input_generator(input: &str) -> Vec<usize> {
-    input.lines().map(make_boarding_pass).collect()
+fn input_generator(input: &[u8]) -> Vec<Pass> {
+    input.chunks(11).map(make_boarding_pass).collect()
 }
 
-fn make_boarding_pass(input: &str) -> usize {
+fn make_boarding_pass(input: &[u8]) -> Pass {
     let row = input[0..7]
-        .bytes()
-        .fold(0, |acc, b| (acc << 1) + (b == b'B') as usize);
+        .iter()
+        .copied()
+        .fold(0, |acc, b| (acc << 1) + (b == b'B') as Pass);
     let col = input[7..10]
-        .bytes()
-        .fold(0, |acc, b| (acc << 1) + (b == b'R') as usize);
+        .iter()
+        .copied()
+        .fold(0, |acc, b| (acc << 1) + (b == b'R') as Pass);
     (row * 8) + col
 }
 
 #[aoc(day5, part1)]
-fn part1(passes: &[usize]) -> usize {
+fn part1(passes: &[Pass]) -> Pass {
     passes.iter().copied().max().unwrap()
 }
 
 #[aoc(day5, part2)]
-fn part2(passes: &[usize]) -> usize {
-    // enough memory to fit 883 bits
-    let mut bitfield = [0u32; 28];
+fn part2(passes: &[Pass]) -> Pass {
+    let iter = passes.iter().copied();
+    let (min, max, sum) = iter.fold((Pass::MAX, Pass::MIN, 0), |(min, max, sum), v| {
+        (min.min(v), max.max(v), sum + v)
+    });
 
-    for &pass in passes {
-        bitfield[pass / 32] |= 0x8000_0000 >> (pass % 32);
-    }
-
-    let (i, n) = bitfield
-        .iter()
-        .map(|&n| n.overflowing_add(1).0)
-        .enumerate()
-        .find(|&(_, n)| n != 0 && !n.is_power_of_two())
-        .unwrap();
-
-    i as usize * 32 + (n - 1).leading_ones() as usize
+    (min..=max).sum::<Pass>() - sum
 }
